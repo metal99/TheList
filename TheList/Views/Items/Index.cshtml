@@ -1,0 +1,55 @@
+﻿@model IEnumerable<TheList.Models.Item>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>The List</h2>
+
+<p>
+    @Html.ActionLink("Add New Task", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            ToDo List
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TODOItem)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Complete", "Delete", new { id = item.ID }, new { onclick = "return confirm('Complete this task?')" })
+        </td>
+    </tr>
+}
+
+</table>
+
+<!-- For the completed list items-->
+<table class="table">
+    <tr>
+        <th>
+            Completed List
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TODOItem)
+            </td>
+        </tr>
+    }
+    @Html.ActionLink("Clear Completed List", "ClearList", new { onclick = "return confirm('Under construction')" })
+
+</table>
+
