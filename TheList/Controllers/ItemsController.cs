@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Dynamic;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,6 +18,11 @@ namespace TheList.Controllers
         // GET: Items
         public ActionResult Index()
         {
+            //testing Tuple views for completed and incomplete items
+            //dynamic mymodel = new ExpandoObject();
+            //mymodel.incomplete = db.Items.Include(i => i.Completed == false).ToList();
+            //mymodel.complete = db.Items.Include(i => i.Completed == true).ToList();
+            //return View(mymodel);
             return View(db.Items.ToList());
         }
 
@@ -34,8 +40,10 @@ namespace TheList.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,TODOItem,Completed")] Item item)
         {
+
             if (ModelState.IsValid)
             {
+                db.Entry(item).Property("Completed").CurrentValue = false;
                 db.Items.Add(item);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -87,14 +95,10 @@ namespace TheList.Controllers
             {
                 return HttpNotFound();
             }
-            //test code
-            db.Items.Remove(item); // change remove to set item to complete
-            //db.Items.
+
+            db.Entry(item).Property("Completed").CurrentValue = true;
             db.SaveChanges();
             return RedirectToAction("Index");
-
-            //end test code
-            //return View(item);
         }
 
         // POST: Items/Delete/5
@@ -111,8 +115,29 @@ namespace TheList.Controllers
         // Clear the completed list
         public ActionResult ClearList()
         {
-            //delete from Item where completed = true;
+
+            var query = from Items in db.Items
+                        where Items.Completed == true
+                        select new
+                        {
+                            Items.ID
+                        };
             
+            if (query == null)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var item in query)
+                {
+                    int id = item.ID;
+                    Item removedItem = db.Items.Find(id);
+                    db.Items.Remove(removedItem);
+                }
+                db.SaveChanges();
+            }
+
             return RedirectToAction("Index");
         }
 

@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<TheList.Models.Item>
 
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -33,6 +34,7 @@
 </table>
 
 <!-- For the completed list items-->
+<!-- currently accessing the incomplete list-->
 <table class="table">
     <tr>
         <th>
@@ -49,7 +51,8 @@
             </td>
         </tr>
     }
-    @Html.ActionLink("Clear Completed List", "ClearList", new { onclick = "return confirm('Under construction')" })
+    <!--Html.ActionLink("Clear Completed List", "ClearList", new { onclick = "return confirm('Under construction')" }) -->
+    @Html.ActionLink("Clear Completed List", "ClearList")
 
 </table>
 

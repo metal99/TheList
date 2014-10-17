@@ -86,6 +86,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\TheListContext-20141015215801.mdf" />
+    <Content Include="App_Data\TheListContext-20141015215801_log.ldf">
+      <DependentUpon>TheListContext-20141015215801.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\css\bootstrap-theme.css" />
     <Content Include="Content\css\bootstrap-theme.min.css" />
     <Content Include="Content\css\bootstrap.css" />
@@ -137,7 +141,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Views\TheList\" />
   </ItemGroup>
   <PropertyGroup>
